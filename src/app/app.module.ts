@@ -12,6 +12,8 @@ import zh from '@angular/common/locales/zh';
 import { AppRoutingModule } from './app-routing.module';
 import { SetupModule } from './pages/setup/setup.module';
 
+import { LocalStorageService } from './services/local-storage.service';
+
 registerLocaleData(zh);
 
 @NgModule({
@@ -25,7 +27,7 @@ registerLocaleData(zh);
     AppRoutingModule,
     SetupModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
+  providers: [{ provide: NZ_I18N, useValue: zh_CN }, LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
