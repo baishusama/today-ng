@@ -9,6 +9,7 @@
 ### ng-zorro
 
 - 在 `angular.json` 文件的 `test` 和 `build` 各自的 `styles` 数组中添加 `ng-zorro-antd.min.css` 文件的路径（在 `node_modules` 中）。从而避免直接从 `index.html` 中手动引入，并随之而来的打包问题（需要手动将所有依赖的静态文件添加到 `src/assets` 目录下，并根据情况设置 `--base-href` 和 `--deploy-url`）。
+- 之前没怎么使用过的 layout, anticon 等
 
 ---
 

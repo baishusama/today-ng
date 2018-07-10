@@ -1,0 +1,63 @@
+// app-left-control { 如果取消注释， .scss 最终会被转换成 app-left-control[_ngcontent-c2]，和 .html 中对应错误
+/**
+ * ImoNote:
+ * - .ts 使用默认的 `encapsulation: ViewEncapsulation.Emulated` 元数据
+ * - .html 中，app-left-control 标签会被加上 _ngcontent-c1 属性，其内部所有标签会被加上 _ngcontent-c2 属性
+ * - .scss 这里定义的所有样式会被加上 `[_ngcontent-c2]` 来标识作用范围，即样式作用在 app-left-control 的内部标签
+ * - 根据以上限定样式的作用范围，而不用在样式外层添加 app-left-control（如第一行和最后一行所示）
+ */
+$size: 40px; // header content height
+$space: 10px;
+$header-height: $size + $space * 2;
+.header-wrapper {
+  $header-color: white;
+
+  overflow: hidden;
+  padding: $space;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  // line-height: 0;
+
+  img {
+    margin-left: $space;
+    width: $size;
+    height: $size;
+  }
+
+  .username-text {
+    margin-left: $space;
+    flex: 1;
+    color: $header-color;
+    font-size: 14px;
+    line-height: $size;
+  }
+
+  .header-btn {
+    color: $header-color;
+    padding: $space;
+    height: $size;
+
+    i {
+      font-size: 18px;
+      line-height: $size - $space * 2;
+    }
+  }
+}
+
+.list-wrapper {
+  $collapse-button-height: 48px;
+
+  overflow-y: auto; // 隐藏滚动条
+  position: absolute;
+  top: $header-height;
+  bottom: $collapse-button-height;
+  padding-bottom: $header-height - $collapse-button-height; // TODO: ???
+  width: 100%;
+
+  .add-list-btn-wrapper {
+    margin-top: 8px;
+    text-align: center;
+  }
+}
+// }

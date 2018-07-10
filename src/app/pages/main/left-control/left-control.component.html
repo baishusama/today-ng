@@ -1,0 +1,41 @@
+<div class="header-wrapper">
+    <!-- Avatar: -->
+    <img
+        src="./assets/img/default-avatar.png"
+        alt="avatar"
+    >
+    <!-- src="../../../assets/img/default-avatar.png" -->
+    <!-- User Name: -->
+    <span
+        class="username-text"
+        *ngIf="!isCollapsed"
+    >
+        {{ username }}
+    </span>
+    <!-- Buttons: TODO: -->
+    <div
+        class="floating-btn header-btn"
+        *ngIf="!isCollapsed"
+    >
+        <i class="anticon anticon-setting"></i>
+    </div>
+    <div
+        class="floating-btn header-btn"
+        *ngIf="!isCollapsed"
+    >
+        <i class="anticon anticon-calendar"></i>
+    </div>
+</div>
+
+<div class="list-wrapper">
+    <div class="add-list-btn-wrapper">
+        <button
+            nz-button
+            nzGhost
+            nzType="dashed"
+        >
+            <i class="anticon anticon-plus"></i>
+            <span *ngIf="!isCollapsed">新列表</span>
+        </button>
+    </div>
+</div>

@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from './../../shared/shared.module';
 import { MainComponent } from './main.component';
 import { MainRoutingModule } from './main-routing.module';
+import { LeftControlComponent } from './left-control/left-control.component';
 
 @NgModule({
-  imports: [CommonModule, MainRoutingModule],
-  declarations: [MainComponent]
+  imports: [SharedModule, MainRoutingModule],
+  declarations: [MainComponent, LeftControlComponent]
 })
 export class MainModule {}
