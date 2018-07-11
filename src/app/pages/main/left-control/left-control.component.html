@@ -12,7 +12,7 @@
     >
         {{ username }}
     </span>
-    <!-- Buttons: TODO: -->
+    <!-- TODO: Buttons: -->
     <div
         class="floating-btn header-btn"
         *ngIf="!isCollapsed"
@@ -28,11 +28,13 @@
 </div>
 
 <div class="list-wrapper">
+    <app-todo-lists [isCollapsed]="isCollapsed"></app-todo-lists>
     <div class="add-list-btn-wrapper">
         <button
             nz-button
             nzGhost
             nzType="dashed"
+            (click)="openAddListModal()"
         >
             <i class="anticon anticon-plus"></i>
             <span *ngIf="!isCollapsed">新列表</span>

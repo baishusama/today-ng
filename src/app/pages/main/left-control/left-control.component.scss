@@ -52,7 +52,7 @@ $header-height: $size + $space * 2;
   position: absolute;
   top: $header-height;
   bottom: $collapse-button-height;
-  padding-bottom: $header-height - $collapse-button-height; // TODO: ???
+  padding-bottom: $header-height - $collapse-button-height; // 这个值其实可以随便定义的。。
   width: 100%;
 
   .add-list-btn-wrapper {

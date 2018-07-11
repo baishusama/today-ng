@@ -1,0 +1,127 @@
+<ul
+    nz-menu
+    [nzTheme]="'dark'"
+    [nzMode]="'inline'"
+    [nzInlineCollapsed]="isCollapsed"
+>
+    <!-- Today: -->
+    <li
+        nz-menu-item
+        [nzSelected]="currentListUuid === 'today'"
+        (click)="select('today')"
+    >
+        <span>
+            <i class="anticon anticon-home"></i>
+            <span class="nav-text">Today</span>
+        </span>
+    </li>
+    <!-- Todo: -->
+    <li
+        nz-menu-item
+        [nzSelected]="currentListUuid === 'todo'"
+        (click)="select('todo')"
+    >
+        <span>
+            <i class="anticon anticon-calendar"></i>
+            <span class="nav-text">Todo</span>
+        </span>
+    </li>
+    <!-- Customs: -->
+    <li
+        nz-menu-item
+        *ngFor="let list of todoLists"
+        [nzSelected]="currentListUuid === list._id"
+        (click)="select(list._id)"
+        (contextmenu)="onContextMenu($event, contextTemplate, list._id)"
+    >
+        <span>
+            <i class="anticon anticon-bars"></i>
+            <span class="nav-text">{{ list.title }}</span>
+        </span>
+    </li>
+</ul>
+
+<!-- 右键菜单栏：
+    关于 nzInDropDown
+    - [Official Demo：“nz-dropdown 下的 nz-menu 默认不可选中。如果需要菜单可选中，可以指定 <ul nz-menu nzSelectable>.”](https://ng.ant.design/components/dropdown/zh#components-dropdown-demo-context-menu)
+    - [Source Code：“set nzInDropDown 的时候会自动设置 nzSelectable 为假，所以 html 中的参数顺序也很重要【TODO:？】”](https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/menu/nz-menu.directive.ts#L42-L61) -->
+<ng-template #contextTemplate>
+    <ul
+        nz-menu
+        nzInDropDown
+        nzSelectable
+        (nzClick)="closeContextMenu()"
+    >
+        <li
+            nz-menu-item
+            (click)="openRenameListModal()"
+        >
+            <i class="anticon anticon-edit anticon-right-margin"></i>
+            <span>重命名</span>
+        </li>
+        <li nz-menu-divider></li>
+        <li
+            nz-menu-item
+            (click)="delete()"
+        >
+            <i class="anticon anticon-delete anticon-right-margin danger"></i>
+            <span class="danger">删除列表</span>
+        </li>
+    </ul>
+</ng-template>
+
+<!-- ImoNote: 注意 html 中使用 ref.value，ts 中使用 ref
+    - Way 1. 像 add list modal 这样将对 input 的清空写在 html 中，缺点是可能需要写多遍
+    - Way 2. 像 rename list modal 这样将对 input 的清空写在 ts 中，优点是易复用，有无缺点？ -->
+<nz-modal
+    [(nzVisible)]="addListModalVisible"
+    [nzTitle]="'添加新列表'"
+    [nzClosable]="true"
+    [nzWidth]="420"
+    [nzOkText]="'添加'"
+    [nzCancelText]="'取消'"
+    [nzMaskClosable]="true"
+    (nzOnCancel)="closeAddListModal()"
+    (nzOnOk)="add(addListInput.value); addListInput.value = '';"
+>
+    <form nz-form>
+        <nz-form-item>
+            <nz-form-control>
+                <input
+                    nz-input
+                    #addListInput
+                    name="addListTitle"
+                    placeholder="列表名称"
+                    (keydown.enter)="add(addListInput.value); addListInput.value = '';"
+                >
+                <!-- ImoNote: `keydown.enter` OAO -->
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-modal>
+
+<nz-modal
+    [(nzVisible)]="renameListModalVisible"
+    [nzTitle]="'重命名列表'"
+    [nzClosable]="true"
+    [nzWidth]="420"
+    [nzOkText]="'修改'"
+    [nzCancelText]="'取消'"
+    [nzMaskClosable]="true"
+    (nzOnCancel)="closeRenameListModal()"
+    (nzOnOk)="rename(renameListInput.value)"
+>
+    <form nz-form>
+        <nz-form-item>
+            <nz-form-control>
+                <input
+                    nz-input
+                    #renameListInput
+                    name="renameListTitle"
+                    placeholder="列表的新名称"
+                    (keydown.enter)="rename(renameListInput.value)"
+                >
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-modal>
