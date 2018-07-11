@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from './../../services/local-storage.service';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import {
   INIT_FLAG,
   START_USING_DATE,
   USERNAME
-} from './../../services/local-storage.namespace';
+} from '../../services/local-storage/local-storage.namespace';
 import { getTodayTime } from '../../../utils/time';
 
 @Component({

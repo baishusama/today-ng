@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SetupModule } from './pages/setup/setup.module';
 import { MainModule } from './pages/main/main.module';
 
-import { LocalStorageService } from './services/local-storage.service';
+import { LocalStorageService } from './services/local-storage/local-storage.service';
 
 registerLocaleData(zh);
 

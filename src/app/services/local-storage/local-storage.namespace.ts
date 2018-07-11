@@ -12,8 +12,8 @@ export const AVATAR_CODE = USER_INFO_NAMESPACE + 'avatarCode';
 export const TODO_NAMESPACE = GLOBAL_NAMESPACE + 'todo.';
 export const TODOS = TODO_NAMESPACE + 'todos';
 
-export const LIST_NAMESPACE = GLOBAL_NAMESPACE + 'list.';
-export const LISTS = LIST_NAMESPACE + 'lists';
+export const TODOLIST_NAMESPACE = GLOBAL_NAMESPACE + 'todolist.';
+export const TODOLISTS = TODOLIST_NAMESPACE + 'todolists';
 
 export const SUMMARY_NAMESPACE = GLOBAL_NAMESPACE + 'summary.';
 export const LAST_SUMMARY_DATE = SUMMARY_NAMESPACE + 'lastSummaryDate';
