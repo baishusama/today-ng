@@ -19,9 +19,10 @@ export class TodoService {
     private todoListsService: TodoListsService,
     private store: LocalStorageService
   ) {
-    // TODO: need ???
-    // this.todos = this.store.getList(TODOS);
-    // TODO: broadcast ?
+    /**
+     * ImoNote:
+     * 原教程在这里（constructor 内部）做了一次 getLocalAll，感觉没必要？
+     */
   }
 
   getLocalAll(): void {
