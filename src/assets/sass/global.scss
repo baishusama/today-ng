@@ -24,3 +24,27 @@ body {
   position: absolute;
   @include to-edge();
 }
+
+// Hack: overwrite nested ul's styles
+/**
+ * ImoNote:
+ *
+ * 为了消除 ul 的默认样式，原博文是在 todos.component.scss 文件中，使用 `ul.ng-star-inserted` 选择器
+ * ，而我感觉使用 `.ant-dropdown-menu-sub > ul` 更准确，但是直接在上述 scss 文件中使用会没有效果
+ * ，因为 scss 文件中所有都会被自动加上 [_ngcontent-c7]，而真实的 html 会是如下：
+ *
+ *   - ul.ant-dropdown-menu-sub[_ngcontent-c12] 有 `list-style: none;` 样式
+ *     - ul.ng-star-inserted[_ngcontent-c7] 没有 `list-style: none;` 样式
+ *
+ * 所以为了使得能够正常使用 `.ant-dropdown-menu-sub > ul`，
+ *   - 要么将 todos.component 设置为 ViewEncapsulation.None
+ *   - 要么将相关样式上升到全局而不限于组件
+ * 我暂时选择了第二种方式。
+ *
+ * > 关于 `.ng-star-inserted`: https://stackoverflow.com/questions/47792932/angular-5-adds-ng-star-inserted-in-some-classes-what-is-that
+ */
+// ul.ng-star-inserted {
+.ant-dropdown-menu-sub > ul {
+  padding: 0;
+  list-style: none;
+}

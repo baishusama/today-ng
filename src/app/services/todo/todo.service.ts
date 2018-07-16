@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { floorToMinute, ONE_HOUR } from './../../../utils/time';
+import { floorToMinute, ONE_HOUR, getCurrentTime } from './../../../utils/time';
 import { Todo } from './../../../domain/entities';
 import { TODOS } from '../local-storage/local-storage.namespace';
 import { LocalStorageService } from './../local-storage/local-storage.service';
@@ -30,10 +30,36 @@ export class TodoService {
     this.broadcast();
   }
   // getRaw(){}
-  // getByUuid(){}
-  // setTodoToday(){}
-  // moveTodoToList(){}
-  // toggleTodoComplete(){}
+
+  toggleTodoComplete(uuid: string): void {
+    const todo = this.getTodoByUuid(uuid);
+    if (todo) {
+      todo.completedFlag = !todo.completedFlag;
+      todo.completedAt = todo.completedFlag ? getCurrentTime() : undefined;
+      this.broadcast();
+      this.persist();
+    }
+  }
+
+  setTodoToday(uuid: string): void {
+    const todo = this.getTodoByUuid(uuid);
+    if (todo && !todo.completedFlag) {
+      todo.planAt = floorToMinute(new Date()) + ONE_HOUR;
+      // this.update(todo)
+      this.broadcast();
+      this.persist();
+    }
+  }
+
+  moveTodoToList(uuid: string, listUUID: string): void {
+    const todo = this.getTodoByUuid(uuid);
+    if (todo) {
+      todo.listUUID = listUUID;
+      // this.update(todo)
+      this.broadcast();
+      this.persist();
+    }
+  }
 
   add(title: string): void {
     const currentListUuid = this.todoListsService.getCurrentListUuid();
@@ -51,12 +77,23 @@ export class TodoService {
     this.persist();
   }
 
-  // update(){}
-  // delete(){}
+  // update(todo: Todo): void{
+  //   const index = this.getTodoIndexByUuid(todo._id);
+  //   if(index !== -1){}
+  // }
+
+  delete(uuid: string): void {
+    const index = this.getTodoIndexByUuid(uuid);
+    if (index !== -1) {
+      this.todos.splice(index, 1);
+      this.broadcast();
+      this.persist();
+    }
+  }
 
   deleteInList(uuid: string): void {
-    // TODO: should delete todos in todoList#uuid...
-    console.log(`[test] should delete todos in todoList (${uuid})...`);
+    const toDelete = this.todos.filter(t => t.listUUID === uuid);
+    toDelete.forEach(t => this.delete(t._id));
   }
 
   private broadcast(): void {
@@ -65,5 +102,15 @@ export class TodoService {
 
   private persist(): void {
     this.store.set(TODOS, this.todos);
+  }
+
+  // 根据 uuid 找到待办事项在数组中的角标
+  private getTodoIndexByUuid(uuid: string): number {
+    return this.todos.findIndex(t => t._id === uuid);
+  }
+
+  // 根据 uuid 找到待办事项
+  private getTodoByUuid(uuid: string): Todo | null {
+    return this.todos.find(t => t._id === uuid) || null;
   }
 }

@@ -32,7 +32,7 @@
         *ngFor="let list of todoLists"
         [nzSelected]="currentListUuid === list._id"
         (click)="select(list._id)"
-        (contextmenu)="onContextMenu($event, contextTemplate, list._id)"
+        (contextmenu)="onContextMenu($event, listContextTemplate, list._id)"
     >
         <span>
             <i class="anticon anticon-bars"></i>
@@ -45,7 +45,7 @@
     关于 nzInDropDown
     - [Official Demo：“nz-dropdown 下的 nz-menu 默认不可选中。如果需要菜单可选中，可以指定 <ul nz-menu nzSelectable>.”](https://ng.ant.design/components/dropdown/zh#components-dropdown-demo-context-menu)
     - [Source Code：“set nzInDropDown 的时候会自动设置 nzSelectable 为假，所以 html 中的参数顺序也很重要【TODO:？】”](https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/menu/nz-menu.directive.ts#L42-L61) -->
-<ng-template #contextTemplate>
+<ng-template #listContextTemplate>
     <ul
         nz-menu
         nzInDropDown

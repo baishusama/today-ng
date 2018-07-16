@@ -17,9 +17,10 @@ export class AppComponent implements OnInit {
      * - 说明：
      *   - 如果不阻止，那么未自定义的表现为浏览器原生的右键菜单栏，自定义的表现为自定义的右键菜单栏
      *   - 阻止后，未自定义的表现为没有右键菜单栏，自定义的表现为自定义的右键菜单栏
+     * P.S. 暂时注释掉下述代码，方便右键 inspect 测试
      */
-    window.addEventListener('contextmenu', e => {
-      e.preventDefault();
-    });
+    // window.addEventListener('contextmenu', e => {
+    //   e.preventDefault();
+    // });
   }
 }

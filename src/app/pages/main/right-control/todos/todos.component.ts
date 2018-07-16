@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { NzDropdownService, NzDropdownContextComponent } from 'ng-zorro-antd';
 
 import { Todo, TodoList } from '../../../../../domain/entities';
 import { TodoListsService } from './../../../../services/todo-lists/todo-lists.service';
@@ -14,6 +14,7 @@ import { floorToDate, getTodayTime } from '../../../../../utils/time';
   styleUrls: ['./todos.component.scss']
 })
 export class TodosComponent implements OnInit, OnDestroy {
+  private dropdown: NzDropdownContextComponent;
   private destroy$ = new Subject();
 
   todos: Todo[] = [];
@@ -21,6 +22,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   currentContextTodo: Todo;
 
   constructor(
+    private dropdownService: NzDropdownService,
     private todoListsService: TodoListsService,
     private todoService: TodoService
   ) {}
@@ -46,6 +48,50 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroy$.next();
+  }
+
+  add(title: string): void {
+    this.todoService.add(title);
+  }
+
+  delete(): void {
+    this.todoService.delete(this.currentContextTodo._id);
+  }
+
+  /* 右键菜单栏 */
+
+  onContextMenu(
+    $event: MouseEvent,
+    template: TemplateRef<void>,
+    uuid: string
+  ): void {
+    this.dropdown = this.dropdownService.create($event, template);
+    this.currentContextTodo = this.todos.find(t => t._id === uuid);
+  }
+
+  closeContextMenu(): void {
+    this.dropdown.close();
+  }
+
+  listsExcept(exceptUuid): TodoList[] {
+    return this.todoLists.filter(list => list._id !== exceptUuid);
+  }
+
+  setToday(): void {
+    this.todoService.setTodoToday(this.currentContextTodo._id);
+  }
+
+  moveToList(listUUID: string): void {
+    this.todoService.moveTodoToList(this.currentContextTodo._id, listUUID);
+  }
+
+  // TODO: 选中某待办事项时
+  select(uuid: string): void {
+    console.log(`[test] should select the todo (${uuid})`);
+  }
+
+  toggle(uuid: string): void {
+    this.todoService.toggleTodoComplete(uuid);
   }
 
   private processTodos(listUUID: string, todos: Todo[]): void {
@@ -78,17 +124,5 @@ export class TodosComponent implements OnInit, OnDestroy {
     //   '[test] #processTodos# After filtering, this.todos :',
     //   this.todos
     // );
-  }
-
-  add(title: string): void {
-    this.todoService.add(title);
-  }
-
-  select(uuid: string): void {
-    console.log(`[test] should select the todo (${uuid})`);
-  }
-
-  toggle(uuid: string): void {
-    console.log(`[test] should toggle the todo (${uuid})`);
   }
 }
