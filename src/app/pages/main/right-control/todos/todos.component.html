@@ -1,0 +1,41 @@
+<!-- TODO: 为什么需要判断长度？ -->
+<!-- TODO: horizontal VS vertical ? -->
+<nz-list
+    *ngIf="todos.length > 0"
+    [nzDataSource]="todos"
+    [nzRenderItem]="item"
+    [nzItemLayout]="'horizontal'"
+>
+    <!-- ImoNote:
+        1. `let-*`：见文档 https://angular.io/guide/structural-directives
+        2. 关于 `$implicit`：是 context object 的一个属性，当 let-* 未指定值的时候，默认使用该属性值
+        （详见 https://angular.io/guide/structural-directives#microsyntax）
+        3. 这里的 let-item 叫什么比较随意，template 内外保持一致就行：
+        比如说可以叫 let-whatever，只要 template 内部使用的时候也叫 whatever 就行 -->
+    <ng-template
+        #item
+        let-item
+    >
+        <nz-list-item
+            class="todo-item"
+            (click)="select(item._id)"
+        >
+            <!-- ImoNote: 
+                这里的 `[nzRenderItem]="item"` 和 `[nzTitle]="nzTitle"` 使用的是模板引用值 -->
+            <nz-list-item-meta [nzTitle]="nzTitle">
+                <ng-template #nzTitle>
+                    <!-- TODO: nz-sth 和 nzSth 两种命名是在区分什么？ 
+                        前者一般单独使用，后者一般需要传值？？？ -->
+                    <!-- TODO: $event.stopPropagation() 有什么作用？ -->
+                    <label
+                        nz-checkbox
+                        (click)="$event.stopPropagation()"
+                        [(ngModel)]="item.completedFlag"
+                        (ngModelChange)="toggle(item._id)"
+                    ></label>
+                    <span [class.strikethrough]="item.completedFlag">{{ item.title }}</span>
+                </ng-template>
+            </nz-list-item-meta>
+        </nz-list-item>
+    </ng-template>
+</nz-list>

@@ -33,10 +33,10 @@ export class TodoListsService {
     // 刚从本地存储获取的数据自然也不需要持久化
   }
 
-  // // 返回当前选中列表的 uuid
-  // getCurrentListUuid(): SpecialListUUID | string {
-  //   return this.currentUuid;
-  // }
+  // 返回当前选中列表的 uuid
+  getCurrentListUuid(): SpecialListUUID | string {
+    return this.currentUuid;
+  }
 
   // 根据 uuid 设置当前选中的列表
   setCurrentListByUuid(uuid: string): void {

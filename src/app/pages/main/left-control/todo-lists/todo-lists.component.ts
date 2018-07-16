@@ -50,13 +50,14 @@ export class TodoListsComponent implements OnInit, OnDestroy {
     this.todoListsService.todoLists$
       .pipe(takeUntil(this.destroy$))
       .subscribe(lists => {
-        console.log('[test] #subscription# lists :', lists);
+        // console.log('[test] #TodoLists# subscribe lists :', lists);
         this.todoLists = lists;
       });
 
     this.todoListsService.currentUuid$
       .pipe(takeUntil(this.destroy$))
       .subscribe(uuid => {
+        // console.log('[test] #TodoLists# subscribe uuid :', uuid);
         this.currentListUuid = uuid;
       });
 
