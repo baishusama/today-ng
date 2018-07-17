@@ -14,10 +14,11 @@ import { HeaderComponent } from './right-control/header/header.component';
 import { QuickAddComponent } from './right-control/quick-add/quick-add.component';
 import { TodosComponent } from './right-control/todos/todos.component';
 import { SuggestComponent } from './right-control/header/suggest/suggest.component';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
   imports: [SharedModule, MainRoutingModule],
-  declarations: [MainComponent, LeftControlComponent, TodoListsComponent, RightControlComponent, HeaderComponent, QuickAddComponent, TodosComponent, SuggestComponent],
+  declarations: [MainComponent, LeftControlComponent, TodoListsComponent, RightControlComponent, HeaderComponent, QuickAddComponent, TodosComponent, SuggestComponent, DetailComponent],
   providers: [TodoListsService, TodoService]
   /**
    * ImoNote:

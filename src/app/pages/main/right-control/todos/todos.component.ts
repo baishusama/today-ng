@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NzDropdownService, NzDropdownContextComponent } from 'ng-zorro-antd';
@@ -30,6 +31,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   currentContextTodo: Todo;
 
   constructor(
+    private router: Router,
     private dropdownService: NzDropdownService,
     private todoListsService: TodoListsService,
     private todoService: TodoService
@@ -97,9 +99,9 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.todoService.moveTodoToList(this.currentContextTodo._id, listUUID);
   }
 
-  // TODO: 选中某待办事项时
+  // 选中某待办事项时，跳转到子路由
   select(uuid: string): void {
-    console.log(`[test] should select the todo (${uuid})`);
+    this.router.navigateByUrl(`/main/${uuid}`);
   }
 
   toggle(uuid: string): void {
