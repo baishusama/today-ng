@@ -20,11 +20,15 @@
                 <i class="anticon anticon-bulb"></i>
                 建议
             </button>
-            <!-- TODO: hack ng-zorro -->
+            <!-- TODO: hack ng-zorro ?
+                博主说这里加上 `nz-menu` 是为了自动添加动画效果，
+                但是我去掉 nz-menu 仍然有动画效果，不同的仅是白色背景消失了。。 -->
             <div
                 nz-menu
                 class="dropdown-content-wrapper"
-            ></div>
+            >
+                <app-suggest></app-suggest>
+            </div>
         </nz-dropdown>
     </div>
 

@@ -1,0 +1,42 @@
+<div class="suggest-container container">
+    <span style="font-weight: 700;">接下来打算做什么？听听我们的建议～</span>
+
+    <nz-list
+        class="suggestion-list"
+        [nzDataSource]="suggestedTodo"
+        [nzRenderItem]="item"
+        [nzItemLayout]="'horizontal'"
+    >
+        <ng-template
+            #item
+            let-item
+        >
+            <nz-list-item
+                class="suggestion-item"
+                [nzActions]="[setTodayActionTemplate]"
+            >
+                <!-- ImoNote: `[nzActions]="[setTodayActionTemplate]"` 
+                    中的传入的是一个 Array<TemplateRef<void>>，所以属性值才会由 `[]` 包裹 -->
+                <nz-list-item-meta
+                    [nzTitle]="item.title"
+                    [nzDescription]="item.desc"
+                >
+                    <!-- TODO: 这么写 #nzTitle 没用吧？ -->
+                    <ng-template #nzTitle>
+                        <a href="https://ng.ant.design">{{item.name.last}}</a>
+                    </ng-template>
+                </nz-list-item-meta>
+                <ng-template #setTodayActionTemplate>
+                    <a (click)="setTodoToday(item)">设为今日</a>
+                </ng-template>
+            </nz-list-item>
+        </ng-template>
+    </nz-list>
+
+    <div
+        class="no-suggestion"
+        *ngIf="suggestedTodo.length === 0"
+    >
+        暂无建议
+    </div>
+</div>
