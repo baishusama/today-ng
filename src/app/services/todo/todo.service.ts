@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { floorToMinute, ONE_HOUR, getCurrentTime } from './../../../utils/time';
+import { OrderOption } from './../../../domain/types';
 import { Todo } from './../../../domain/entities';
 import { TODOS } from '../local-storage/local-storage.namespace';
 import { LocalStorageService } from './../local-storage/local-storage.service';
@@ -12,8 +13,10 @@ import { TodoListsService } from './../todo-lists/todo-lists.service';
 })
 export class TodoService {
   private todos: Todo[] = [];
+  private order: OrderOption = 'title';
 
-  todos$ = new Subject();
+  todos$ = new Subject<Todo[]>();
+  order$ = new Subject<OrderOption>();
 
   constructor(
     private todoListsService: TodoListsService,
@@ -96,8 +99,14 @@ export class TodoService {
     toDelete.forEach(t => this.delete(t._id));
   }
 
+  toggleOrder(r: OrderOption): void {
+    this.order = r;
+    this.order$.next(r);
+  }
+
   private broadcast(): void {
     this.todos$.next(this.todos);
+    this.order$.next(this.order);
   }
 
   private persist(): void {

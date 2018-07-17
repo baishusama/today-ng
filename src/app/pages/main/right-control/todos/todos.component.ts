@@ -4,9 +4,17 @@ import { takeUntil } from 'rxjs/operators';
 import { NzDropdownService, NzDropdownContextComponent } from 'ng-zorro-antd';
 
 import { Todo, TodoList } from '../../../../../domain/entities';
+import { OrderOption } from './../../../../../domain/types';
 import { TodoListsService } from './../../../../services/todo-lists/todo-lists.service';
 import { TodoService } from './../../../../services/todo/todo.service';
 import { floorToDate, getTodayTime } from '../../../../../utils/time';
+
+const ordererGenerator = (order: OrderOption = 'title'): any => {
+  if (order === 'completedFlag') {
+    return (t1: Todo, t2: Todo) => t1.completedFlag && !t2.completedFlag;
+  }
+  return (t1: Todo, t2: Todo) => t1[order] > t2[order];
+};
 
 @Component({
   selector: 'app-todos',
@@ -35,11 +43,15 @@ export class TodosComponent implements OnInit, OnDestroy {
         this.todoLists = lists;
       });
 
-    combineLatest(this.todoListsService.currentUuid$, this.todoService.todos$)
+    combineLatest(
+      this.todoListsService.currentUuid$,
+      this.todoService.todos$,
+      this.todoService.order$
+    )
       .pipe(takeUntil(this.destroy$))
       .subscribe(sources => {
         // console.log('[test] #Todos# subscribe(combine) sources :', sources);
-        this.processTodos(sources[0], sources[1] as Todo[]);
+        this.processTodos(sources[0], sources[1] as Todo[], sources[2]);
       });
 
     this.todoListsService.getLocalAll();
@@ -94,7 +106,11 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.todoService.toggleTodoComplete(uuid);
   }
 
-  private processTodos(listUUID: string, todos: Todo[]): void {
+  private processTodos(
+    listUUID: string,
+    todos: Todo[],
+    order: OrderOption
+  ): void {
     // console.log(
     //   '[test] #processTodos# Before filtering, this.todos :',
     //   this.todos
@@ -117,7 +133,8 @@ export class TodosComponent implements OnInit, OnDestroy {
        * 做一次“深”拷贝的原因大概是，不想 todos 组件对服务中的 todos 数据作出意外修改，
        * 因为 subject.next 方法传递到 subscribe 回调函数中的值是按引用传递的。
        */
-      .map(todo => Object.assign({}, todo) as Todo);
+      .map(todo => Object.assign({}, todo) as Todo)
+      .sort(ordererGenerator(order));
 
     this.todos = filteredTodos;
     // console.log(
