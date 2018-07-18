@@ -15,6 +15,18 @@ body {
   left: 0;
 }
 
+@mixin to-right-edge {
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin to-bottom-edge {
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .full-screen {
   position: fixed;
   @include to-edge();

@@ -1,3 +1,110 @@
-<p>
-  detail works!
-</p>
+<div
+    class="mask"
+    (click)="goBack()"
+>
+    <!-- TODO: 这里的两个 stopPropagation -->
+    <div
+        class="container"
+        (click)="$event.stopPropagation()"
+    >
+        <div style="text-align: right;">
+            <button
+                nz-button
+                nzType="primary"
+                nzSize="large"
+                nzShape="circle"
+                (click)="confirm()"
+                style="margin-right: 10px;"
+            >
+                <i class="anticon anticon-check"></i>
+            </button>
+            <button
+                nz-button
+                nzType="danger"
+                nzSize="large"
+                nzShape="circle"
+                nz-popconfirm
+                nzPlacement="bottomRight"
+                nzTitle="你真的要删除这条待办事项吗？"
+                (nzOnConfirm)="delete()"
+            >
+                <i class="anticon anticon-delete"></i>
+            </button>
+        </div>
+
+        <label
+            nz-checkbox
+            (click)="$event.stopPropagation()"
+            [(ngModel)]="cacheTodo.completedFlag"
+        ></label>
+        <span>标记完成</span>
+
+        <nz-divider
+            nzText="标题"
+            nzOrientation="left"
+        ></nz-divider>
+        <div class="input-container">
+            <input
+                nz-input
+                [(ngModel)]="cacheTodo.title"
+                placeholder="待办事项"
+                [disabled]="!!cacheTodo.completedFlag"
+                id="title"
+                name="title"
+            >
+        </div>
+
+        <nz-divider
+            nzText="日期与提醒"
+            nzOrientation="left"
+        ></nz-divider>
+        <div class="due-date-container input-container">
+            <span class="prefix">截止日期</span>
+            <!-- ImoNote: [nzDisabledDate] 用法 -->
+            <nz-date-picker
+                [(ngModel)]="dueDate"
+                [disabled]="!!cacheTodo.completedFlag"
+                [nzDisabledDate]="dueDisabledDate"
+                (ngModelChange)="handleDueDateChange($event)"
+            >
+            </nz-date-picker>
+        </div>
+        <div class="plan-date-container input-container">
+            <span class="prefix">计划日期</span>
+            <!-- ImoNote: nzShowTime 用法 -->
+            <nz-date-picker
+                nzShowTime
+                [(ngModel)]="planDate"
+                [disabled]="!!cacheTodo.completedFlag"
+                [nzDisabledDate]="planDisabledDate"
+                (ngModelChange)="handlePlanDateChange($event)"
+            >
+            </nz-date-picker>
+        </div>
+        <!-- ImoNote: [nzControl] 
+            表示“是否完全由用户控制状态” -->
+        <div class="input-container">
+            <span class="prefix">计划提醒</span>
+            <nz-switch
+                [(ngModel)]="cacheTodo.notifyMe"
+                [nzControl]="true"
+                [nzDisabled]="!!cacheTodo.completedFlag"
+                (click)="switchNotifyMe()"
+            ></nz-switch>
+        </div>
+
+        <nz-divider
+            nzText="更多"
+            nzOrientation="left"
+        ></nz-divider>
+        <div class="input-container">
+            <textarea
+                nz-input
+                row="8"
+                placeholder="待办详情"
+                [disabled]="!!cacheTodo.completedFlag"
+                [(ngModel)]="cacheTodo.desc"
+            ></textarea>
+        </div>
+    </div>
+</div>

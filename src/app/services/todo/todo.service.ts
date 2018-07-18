@@ -80,10 +80,28 @@ export class TodoService {
     this.persist();
   }
 
-  // update(todo: Todo): void{
-  //   const index = this.getTodoIndexByUuid(todo._id);
-  //   if(index !== -1){}
-  // }
+  update(todo: Todo): void {
+    const index = this.getTodoIndexByUuid(todo._id);
+    if (index !== -1) {
+      /**
+       * ImoNote:
+       * - 博主下面的代码有 bug
+       *   - 例如，当一个很早就完成的（todo.completedFlag === true）的待办事项请求更新（update）的时候，
+       *     每次 update 都会修改其完成的时间（completedAt）。
+       * - 所以我这里通过对比 update 前后 todo 的完成状态的值，决定是否和如何更新 completedAt 时间
+       */
+      const oldTodo = this.getTodoByUuid(todo._id);
+      if (!oldTodo.completedFlag && todo.completedFlag) {
+        todo.completedAt = getCurrentTime();
+      } else if (oldTodo.completedFlag && !todo.completedFlag) {
+        todo.completedAt = undefined;
+      }
+
+      this.todos.splice(index, 1, todo);
+      this.broadcast();
+      this.persist();
+    }
+  }
 
   delete(uuid: string): void {
     const index = this.getTodoIndexByUuid(uuid);
@@ -104,13 +122,9 @@ export class TodoService {
     this.order$.next(r);
   }
 
-  private broadcast(): void {
-    this.todos$.next(this.todos);
-    this.order$.next(this.order);
-  }
-
-  private persist(): void {
-    this.store.set(TODOS, this.todos);
+  // 根据 uuid 找到待办事项
+  public getTodoByUuid(uuid: string): Todo | null {
+    return this.todos.find(t => t._id === uuid) || null;
   }
 
   // 根据 uuid 找到待办事项在数组中的角标
@@ -118,8 +132,12 @@ export class TodoService {
     return this.todos.findIndex(t => t._id === uuid);
   }
 
-  // 根据 uuid 找到待办事项
-  private getTodoByUuid(uuid: string): Todo | null {
-    return this.todos.find(t => t._id === uuid) || null;
+  private broadcast(): void {
+    this.todos$.next(this.todos);
+    this.order$.next(this.order);
+  }
+
+  private persist(): void {
+    this.store.set(TODOS, this.todos);
   }
 }

@@ -20,3 +20,10 @@ export const floorToMinute = function(time: any): number {
   t.setSeconds(0, 0);
   return t.getTime();
 };
+
+export const lessThanADay = function(
+  later: number,
+  earlier: number = getCurrentTime()
+) {
+  return later - earlier < ONE_DAY;
+};
