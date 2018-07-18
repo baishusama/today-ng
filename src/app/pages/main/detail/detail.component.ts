@@ -1,4 +1,10 @@
-import { Component, Output, OnInit, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  OnInit,
+  EventEmitter,
+  HostBinding
+} from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 
@@ -11,13 +17,16 @@ import {
 } from '../../../../utils/time';
 import { Todo } from './../../../../domain/entities';
 import { TodoService } from './../../../services/todo/todo.service';
+import { detailTransition } from './detail.animation';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+  styleUrls: ['./detail.component.scss'],
+  animations: [detailTransition]
 })
 export class DetailComponent implements OnInit {
+  @HostBinding('@detailTransition') state = 'activated';
   @Output() changedTodo = new EventEmitter();
 
   private sourceTodo: Todo;
