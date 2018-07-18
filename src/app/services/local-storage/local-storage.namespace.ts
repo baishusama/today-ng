@@ -2,8 +2,8 @@
 export const GLOBAL_NAMESPACE = 'today.';
 
 export const APP_INFO_NAMESPACE = GLOBAL_NAMESPACE + 'appInfo.';
-export const INIT_FLAG = GLOBAL_NAMESPACE + 'initFlag.';
-export const START_USING_DATE = GLOBAL_NAMESPACE + 'startUsingDate.';
+export const INIT_FLAG = GLOBAL_NAMESPACE + 'initFlag';
+export const START_USING_DATE = GLOBAL_NAMESPACE + 'startUsingDate';
 
 export const USER_INFO_NAMESPACE = GLOBAL_NAMESPACE + 'userInfo.';
 export const USERNAME = USER_INFO_NAMESPACE + 'username';
