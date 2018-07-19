@@ -20,7 +20,7 @@ export class LocalStorageService {
   }
 
   public set(key: string, value: any): void {
-    if (!value && value === undefined) {
+    if (value === undefined) {
       return;
     }
     const arr = JSON.stringify(value);

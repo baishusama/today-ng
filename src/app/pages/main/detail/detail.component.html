@@ -37,7 +37,7 @@
             (click)="$event.stopPropagation()"
             [(ngModel)]="cacheTodo.completedFlag"
         ></label>
-        <span>标记完成</span>
+        <span [title]="getFormatStrOfDatetime(cacheTodo.completedAt)">标记完成</span>
 
         <nz-divider
             nzText="标题"

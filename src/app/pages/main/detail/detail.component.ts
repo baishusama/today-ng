@@ -1,3 +1,4 @@
+import { getDaytimeStr } from './../../../../utils/time';
 import {
   Component,
   Output,
@@ -94,6 +95,10 @@ export class DetailComponent implements OnInit {
     }
     this.cacheTodo.planAt = planAt;
     this.checkDate();
+  }
+
+  getFormatStrOfDatetime(date: number): string {
+    return `完成于 ${getDaytimeStr(date)}`;
   }
 
   // 只有在未完成、且存在计划日期的情况下，才能开关“计划提醒”
