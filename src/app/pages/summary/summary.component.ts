@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd';
 
+import { pageSwitchTransition } from './../../app.animation';
 import { getTodayTime, ONE_DAY } from '../../../utils/time';
 import {
   USERNAME,
@@ -15,7 +16,8 @@ import { SummaryService } from './summary.service';
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.scss']
+  styleUrls: ['./summary.component.scss'],
+  animations: [pageSwitchTransition]
 })
 export class SummaryComponent implements OnInit {
   username = this.store.get(USERNAME) || '匿名用户';
@@ -24,7 +26,8 @@ export class SummaryComponent implements OnInit {
   );
 
   // TODO:
-  // @HostBinding('@pageSwitchTransition') private state = 'activated';
+  @HostBinding('@pageSwitchTransition')
+  private state = 'activated';
 
   constructor(
     // private router: Router,

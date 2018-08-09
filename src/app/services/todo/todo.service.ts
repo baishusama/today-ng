@@ -32,7 +32,11 @@ export class TodoService {
     this.todos = this.store.getList(TODOS);
     this.broadcast();
   }
-  // getRaw(){}
+
+  // 感觉这么做很危险（todos 数据很容易被使用者不小心修改）
+  getRawAll() {
+    return this.todos;
+  }
 
   toggleTodoComplete(uuid: string): void {
     const todo = this.getTodoByUuid(uuid);
