@@ -12,12 +12,14 @@
     >
         {{ username }}
     </span>
-    <!-- TODO: Buttons: -->
     <div
         class="floating-btn header-btn"
         *ngIf="!isCollapsed"
     >
-        <i class="anticon anticon-setting"></i>
+        <i
+            routerLink="/setting"
+            class="anticon anticon-setting"
+        ></i>
     </div>
     <div
         class="floating-btn header-btn"

@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SetupModule } from './pages/setup/setup.module';
 import { MainModule } from './pages/main/main.module';
 import { SummaryModule } from './pages/summary/summary.module';
+import { SettingModule } from './pages/setting/setting.module';
 
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 
@@ -29,7 +30,8 @@ registerLocaleData(zh);
     AppRoutingModule,
     SetupModule,
     MainModule,
-    SummaryModule
+    SummaryModule,
+    SettingModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }, LocalStorageService],
   bootstrap: [AppComponent]

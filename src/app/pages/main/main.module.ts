@@ -18,7 +18,17 @@ import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
   imports: [SharedModule, MainRoutingModule],
-  declarations: [MainComponent, LeftControlComponent, TodoListsComponent, RightControlComponent, HeaderComponent, QuickAddComponent, TodosComponent, SuggestComponent, DetailComponent],
+  declarations: [
+    MainComponent,
+    LeftControlComponent,
+    TodoListsComponent,
+    RightControlComponent,
+    HeaderComponent,
+    QuickAddComponent,
+    TodosComponent,
+    SuggestComponent,
+    DetailComponent
+  ],
   providers: [TodoListsService, TodoService]
   /**
    * ImoNote:

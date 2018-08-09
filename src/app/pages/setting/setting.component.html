@@ -1,0 +1,33 @@
+<nz-layout class="full-screen setting-container">
+    <div
+        class="back-btn floating-btn"
+        (click)="goBack()"
+    >
+        <span class="anticon anticon-left"></span>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content">
+            <img
+                src="./assets/img/default-avatar.png"
+                class="avatar"
+            >
+            <nz-divider
+                nzType="horizontal"
+                nzText="用户名"
+            ></nz-divider>
+            <input
+                nz-input
+                nzSize="large"
+                placeholder="新用户名"
+                #usernameInput
+                (blur)="validateUsername(usernameInput.value)"
+            >
+            <!-- ImoNote: 我一开始的思路是 [(ngModel)]="username"；我对原作者的写法相对陌生 -->
+            <nz-divider
+                nzType="horizontal"
+                nzText="应用设置"
+            ></nz-divider>
+        </div>
+    </div>
+</nz-layout>
